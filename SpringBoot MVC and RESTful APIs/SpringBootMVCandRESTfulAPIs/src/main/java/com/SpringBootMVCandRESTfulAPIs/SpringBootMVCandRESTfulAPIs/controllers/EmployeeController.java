@@ -17,11 +17,6 @@ import java.util.Optional;
 @RequestMapping(path = "/employees")
 public class EmployeeController {
 
-//    @GetMapping(path = "/hello")
-//    public String getMySecretMessage(){
-//        return "Hello friend";
-//    }
-
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
@@ -60,7 +55,6 @@ public class EmployeeController {
         if (gotDeleted) return ResponseEntity.ok(true);
         return ResponseEntity.notFound().build();
     }
-
 
     @PatchMapping(path = "/{employeeID}")
     public ResponseEntity<EmployeeDTO> updatePartialEmployee(@PathVariable Long employeeID, @RequestBody Map<String, Object> updates) {
