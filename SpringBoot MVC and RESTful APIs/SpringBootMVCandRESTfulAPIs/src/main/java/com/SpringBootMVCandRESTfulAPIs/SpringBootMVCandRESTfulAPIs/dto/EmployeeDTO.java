@@ -1,73 +1,24 @@
 package com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
 
     private Long EmployeeID;
-    private String Name;
-    private String Email;
-    private Integer Age;
-    private LocalDate DateOfJoining;
+    private String name;
+    private String email;
+    private Integer age;
+    private LocalDate dateOfJoining;
+    @JsonProperty("isActive")
     private Boolean isActive;
-
-    public EmployeeDTO(){
-
-    }
-
-    public EmployeeDTO(Long employeeID, String name, String email, Integer age, LocalDate dateOfJoining, Boolean isActive) {
-        EmployeeID = employeeID;
-        Name = name;
-        Email = email;
-        Age = age;
-        DateOfJoining = dateOfJoining;
-        this.isActive = isActive;
-    }
-
-    public Long getEmployeeID() {
-        return EmployeeID;
-    }
-    public void setEmployeeID(Long employeeID) {
-        EmployeeID = employeeID;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public Integer getAge() {
-        return Age;
-    }
-
-    public void setAge(Integer age) {
-        Age = age;
-    }
-
-    public LocalDate getDateOfJoining() {
-        return DateOfJoining;
-    }
-
-    public void setDateOfJoining(LocalDate dateOfJoining) {
-        DateOfJoining = dateOfJoining;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
 }

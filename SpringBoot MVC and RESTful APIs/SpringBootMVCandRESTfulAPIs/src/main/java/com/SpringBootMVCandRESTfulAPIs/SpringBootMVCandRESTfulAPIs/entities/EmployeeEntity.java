@@ -1,5 +1,6 @@
 package com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,11 +19,13 @@ import java.time.LocalDate;
 public class EmployeeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long EmployeeID;
-    private String Name;
-    private String Email;
-    private Integer Age;
-    private LocalDate DateOfJoining;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ID;
+    private String name;
+    private String email;
+    private Integer age;
+    private LocalDate dateOfJoining;
+    @JsonProperty("isActive")
     private Boolean isActive;
+
 }
