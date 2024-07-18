@@ -2,6 +2,7 @@ package com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.controllers;
 
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.dto.EmployeeDTO;
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.entities.EmployeeEntity;
+import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.exceptions.ResourceNotFoundException;
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.repositories.EmployeeRepository;
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.services.EmployeeService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -30,7 +32,7 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeByID(id);
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(()-> new ResourceNotFoundException("Employee not found with id " + id));
     }
 
     @GetMapping

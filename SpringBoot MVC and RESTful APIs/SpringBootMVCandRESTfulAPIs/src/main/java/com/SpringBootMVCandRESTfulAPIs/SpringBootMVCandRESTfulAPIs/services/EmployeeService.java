@@ -3,6 +3,7 @@ package com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.services;
 
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.dto.EmployeeDTO;
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.entities.EmployeeEntity;
+import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.exceptions.ResourceNotFoundException;
 import com.SpringBootMVCandRESTfulAPIs.SpringBootMVCandRESTfulAPIs.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -53,21 +54,20 @@ public class EmployeeService {
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
 
-    public boolean isExistsByEmployeeID(long employeeID) {
-        return employeeRepository.existsById(employeeID);
+    public void isExistsByEmployeeID(long employeeID) {
+        boolean exists = employeeRepository.existsById(employeeID);
+        if(!exists) throw new ResourceNotFoundException("Employee not found with id: "+employeeID);
     }
 
     public boolean deleteEmployeeByID(Long employeeID) {
-        boolean exists = employeeRepository.existsById(employeeID);
-        if(!exists) return false;
+        isExistsByEmployeeID(employeeID);
         employeeRepository.deleteById(employeeID);
         return true;
     }
 
 
     public EmployeeDTO updatePartialEmployeeByID(Long employeeID, Map<String, Object> updates) {
-        boolean exists = isExistsByEmployeeID(employeeID);
-        if(!exists) return null;
+        isExistsByEmployeeID(employeeID);
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeID).get();
         updates.forEach((field, value)-> {
             Field fieldToBeUpdated = ReflectionUtils.findRequiredField(EmployeeEntity.class, field);
