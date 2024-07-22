@@ -1,6 +1,7 @@
 package com.hibernate.jpa.repositories;
 
 import com.hibernate.jpa.entities.ProductEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,9 +16,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByTitle(String title);
 
-    List<ProductEntity> findByTitleContainingIgnoreCase(String pepsi);
+    List<ProductEntity> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
-    List<ProductEntity> findByTitleLike(String cHoco);
+    List<ProductEntity> findByTitleLike(String title);
 
     List<ProductEntity> findByQuantityGreaterThanOrPriceLessThan(int i, BigDecimal bigDecimal);
 
