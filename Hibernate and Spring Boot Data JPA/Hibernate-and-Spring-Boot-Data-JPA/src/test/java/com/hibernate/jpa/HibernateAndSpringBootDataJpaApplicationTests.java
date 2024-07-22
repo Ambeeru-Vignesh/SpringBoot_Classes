@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class HibernateAndSpringBootDataJpaApplicationTests {
@@ -31,4 +33,18 @@ class HibernateAndSpringBootDataJpaApplicationTests {
 		System.out.println(savedProductEntity);
 	}
 
+	@Test
+	void getRepository() {
+
+		//List<ProductEntity> entities = productRepository.findByQuantityGreaterThanOrPriceLessThan(6, BigDecimal.valueOf(10.5));
+		List<ProductEntity> entities = productRepository.findByTitleContainingIgnoreCase("CHoco");
+		System.out.println(entities);
+	}
+
+	@Test
+	void getSingleFromRepository() {
+		Optional<ProductEntity> productEntity = productRepository
+				.findByTitleAndPrice("Peps",BigDecimal.valueOf(14.4));
+		productEntity.ifPresent(System.out::println);
+	}
 }
