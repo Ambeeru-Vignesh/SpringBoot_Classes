@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -23,4 +26,29 @@ public class EmployeeEntity {
     @JsonIgnore
     private DepartmentEntity managedDepartment;
 
+    @ManyToOne
+    //@JoinColumn(name = "worker_department_id")
+    @JoinTable(name = "worker_department_mapping")
+    @JsonIgnore
+    private DepartmentEntity workerDepartment;
+
+    @ManyToMany
+    @JoinTable(name = "freelancer_department_mapping",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id")
+    )
+    @JsonIgnore
+    private Set<DepartmentEntity> freelanceDepartments;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EmployeeEntity that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
+    }
 }
