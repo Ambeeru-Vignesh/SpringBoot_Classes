@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserService userService;
 
     @Autowired
-    @Qualifier("handleExceptionResolver")
+    @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
@@ -40,9 +40,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String token = requestTokenHeader.split("Bearer")[1];
+            String token = requestTokenHeader.split("Bearer ")[1];
             Long userId = jwtService.getUserIdFromToken(token);
-
             if(userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = userService.getUserById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken =

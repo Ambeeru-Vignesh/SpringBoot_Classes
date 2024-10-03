@@ -45,6 +45,7 @@ public class UserService implements UserDetailsService {
             throw new BadCredentialsException("User with email already exists " + signUpDto.getEmail());
         }
 
+
         User toBeCreatedUser = modelMapper.map(signUpDto, User.class);
         toBeCreatedUser.setPassword(passwordEncoder.encode(toBeCreatedUser.getPassword()));
 
