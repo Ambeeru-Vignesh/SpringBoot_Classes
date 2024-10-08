@@ -44,7 +44,11 @@ public class WebSecurityConfig {
                .csrf(csrfConfig -> csrfConfig.disable())
                .sessionManagement(sessionConfig -> sessionConfig
                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-               .addFilterBefore((Filter) jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+               .addFilterBefore((Filter) jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+               .oauth2Login(oauth2Config -> oauth2Config
+                       .failureUrl("/login?error=true")
+                       .successHandler(oAuth2SuccessHandler)
+               );
 
        return httpSecurity.build();
     }
