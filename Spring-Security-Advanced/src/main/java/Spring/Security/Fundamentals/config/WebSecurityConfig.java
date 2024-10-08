@@ -2,6 +2,7 @@ package Spring.Security.Fundamentals.config;
 
 import Spring.Security.Fundamentals.entities.enums.Role;
 import Spring.Security.Fundamentals.filters.JwtAuthFilter;
+import Spring.Security.Fundamentals.handlers.OAuth2SuccessHandler;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ import static Spring.Security.Fundamentals.entities.enums.Role.CREATOR;
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     private static final String[] publicRoutes = {
             "/error", "/auth/**", "/home.html"
