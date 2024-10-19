@@ -22,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    @Secured("")
+    @Secured("@postSecurity.isOwnerOfPost(#postId)")
     public PostDto getPostById(@PathVariable Long postId) {
         return postService.getPostById(postId);
     }
