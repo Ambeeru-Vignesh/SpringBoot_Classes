@@ -15,7 +15,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(TestcontainersConfiguration.class)
@@ -47,7 +51,19 @@ class EmployeeServiceImplTest {
     }
 
     @Test
-    void getEmployeeById() {
+    void testGetEmployeeById_WhenEmployeeIdIsPresent_ThenReturnEmployeeDto() {
+        // assign
+        Long id = mockEmployee.getId();
+        when(employeeRepository.findById(id)).thenReturn(Optional.of(mockEmployee)); //stubbing
+
+        // act
+        EmployeeDto employeeDto =  employeeService.getEmployeeById(id);
+
+        // assert
+        assertThat(employeeDto).isNotNull();
+        assertThat(employeeDto.getId()).isEqualTo(id);
+        assertThat(employeeDto.getEmail()).isEqualTo(mockEmployee.getEmail());
+        verify(employeeRepository, only()).findById(id);
     }
 
     @Test
