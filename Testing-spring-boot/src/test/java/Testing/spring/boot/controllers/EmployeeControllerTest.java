@@ -58,7 +58,7 @@ class EmployeeControllerTest extends AbstractIntegrationTest {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
-                .jsonPath("$.email").isEqualTo(testEmployeeDto.getName())
+                .jsonPath("$.email").isEqualTo(testEmployeeDto.getEmail())
                 .jsonPath("$.name").isEqualTo(testEmployeeDto.getName());
 
     }
