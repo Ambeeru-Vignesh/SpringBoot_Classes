@@ -1,6 +1,5 @@
 package com.springboot.caching.services.impl;
 
-
 import com.springboot.caching.dto.EmployeeDto;
 import com.springboot.caching.entities.Employee;
 import com.springboot.caching.exceptions.ResourceNotFoundException;
@@ -10,6 +9,9 @@ import com.springboot.caching.services.SalaryAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +25,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final SalaryAccountService salaryAccountService;
     private final ModelMapper modelMapper;
-
+    private final String CACHE_NAME = "employees";
 
     @Override
+    @Cacheable(cacheNames = CACHE_NAME, key = "#id")
     public EmployeeDto getEmployeeById(Long id) {
         log.info("Fetching employee with id: {}", id);
         Employee employee = employeeRepository.findById(id)
@@ -38,6 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CachePut(cacheNames = CACHE_NAME, key = "#result.id")
     @Transactional
     public EmployeeDto createNewEmployee(EmployeeDto employeeDto) {
         log.info("Creating new employee with email: {}", employeeDto.getEmail());
@@ -57,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CachePut(cacheNames = CACHE_NAME, key = "#id")
     public EmployeeDto updateEmployee(Long id, EmployeeDto employeeDto) {
         log.info("Updating employee with id: {}", id);
         Employee employee = employeeRepository.findById(id)
@@ -66,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 });
 
         if (!employee.getEmail().equals(employeeDto.getEmail())) {
-            log.error("Attempted to update email for employee with id: {}", id);
+            log.error("Current email: {}, New email: {}", employee.getEmail(), employeeDto.getEmail());
             throw new RuntimeException("The email of the employee cannot be updated");
         }
 
@@ -79,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
     public void deleteEmployee(Long id) {
         log.info("Deleting employee with id: {}", id);
         boolean exists = employeeRepository.existsById(id);
