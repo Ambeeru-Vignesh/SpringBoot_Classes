@@ -12,14 +12,13 @@ spring:
             - Path=/api/v1/orders/**
           filters:
             - StripPrefix=2
-        #            - RedirectTo=302, http://codingshuttle.com
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/api/v1/inventory/**
           filters:
             - StripPrefix=2
-            - AddRequestHeader=X-Custom-Header, Anuj
+            - AddRequestHeader=X-Custom-Header, Vignesh
 eureka:
   client:
     service-url:
