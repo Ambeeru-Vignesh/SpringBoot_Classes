@@ -1,4 +1,7 @@
 package com.ecommerce.inventory_service.repository;
 
-public interface ProductRepository {
+import com.ecommerce.inventory_service.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }
