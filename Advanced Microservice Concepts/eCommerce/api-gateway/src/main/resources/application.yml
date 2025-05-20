@@ -1,3 +1,7 @@
+#Security signature
+jwt:
+  secretKey: mccnddkhdhdshohowhdisdsanklsnlnhasudiuiudsuhdsh
+
 spring:
   application:
     name: api-gateway
@@ -13,6 +17,9 @@ spring:
           filters:
             - StripPrefix=2
             - name: LoggingOrdersFilter
+            - name: AuthenticationFilter
+              args:
+                enabled: true
 #            - RedirectTo=302, http://codingshuttle.com
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
