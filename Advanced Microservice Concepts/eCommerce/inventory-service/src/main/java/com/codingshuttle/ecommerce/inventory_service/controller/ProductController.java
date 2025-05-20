@@ -7,8 +7,10 @@ import com.codingshuttle.ecommerce.inventory_service.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
@@ -19,6 +21,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@RefreshScope
 public class ProductController {
 
     private final ProductService productService;
@@ -26,6 +29,14 @@ public class ProductController {
     private final RestClient restClient;
 
     private final OrdersFeignClient ordersFeignClient;
+
+    @Value("${my.variable}")// Fetching property from Config Server
+    private String message;
+
+    @GetMapping("/config")
+    public String getConfigMessage() {
+        return "Config Message: " + message;
+    }
 
     @GetMapping("/fetchOrders")
     public String fetchFromOrdersService(HttpServletRequest httpServletRequest) {

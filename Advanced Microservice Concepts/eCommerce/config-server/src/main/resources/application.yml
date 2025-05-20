@@ -1,0 +1,22 @@
+spring.application.name: config-server
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Ambeeru-Vignesh/ecommerce-cloud-config
+          username: Ambeeru-Vignesh
+          password: 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
+          default-label: main
+
+server:
+  port: 8888
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
